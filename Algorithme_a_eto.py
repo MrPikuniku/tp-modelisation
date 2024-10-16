@@ -13,6 +13,7 @@ class Noeud:
         self.voisins = voisins
         self.couts = couts
         self.marque = False
+    
     def afficheNoeud(self):
         print(self.nom)
         
@@ -21,19 +22,25 @@ class Noeud:
         
     def a_eto(self, arr, estimations):
         noeud = self
+        self.afficheNoeud()
         parcours = [self.nom]
+        dist_cumul = 0
         while noeud != arr:
-            mini_noeud = noeud.voisins[0]
-            mini_estimation = estimations[noeud.voisins[0].nom] + noeud.couts[0]
+            noeud_mini = noeud.voisins[0]
+            fn = dist_cumul + estimations[noeud.voisins[0].nom]
+            dist_actuelle = noeud.couts[0]
+            for i in range(len(noeud.voisins)):
+                if (fn > dist_cumul + estimations[noeud.voisins[i].nom]) and (noeud.voisins[i].nom not in parcours):
+                    noeud_mini = noeud.voisins[i]
+                    fn = dist_cumul + estimations[noeud.voisins[i].nom]
+                    dist_actuelle = noeud.couts[i]
+                if (i==len(noeud.voisins)-1):
+                    dist_cumul = dist_cumul + dist_actuelle
+                    noeud = noeud_mini
+                    parcours.append(noeud.nom)
+                    
+                
             
-            # Comparer les estimations des autres voisins
-            for i in range(1, len(noeud.voisins)):
-                if (estimations[noeud.voisins[i].nom] + noeud.couts[i] < mini_estimation) and (noeud.voisins[i].nom not in parcours):
-                    mini_estimation = estimations[noeud.voisins[i].nom] + noeud.couts[i]
-                    mini_noeud = noeud.voisins[i]
-            noeud = mini_noeud
-            print(noeud.nom)
-            parcours.append(noeud.nom)
         return parcours
 
 arad = Noeud("Arad")
