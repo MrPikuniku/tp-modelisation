@@ -1,40 +1,49 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Oct 11 16:19:22 2024
+Created on Tue Oct 15 10:55:53 2024
 
-@author: ms284034
+@author: ec
 """
 
 
+
 class Noeud:    
+    
     def __init__(self, nom, voisins=[],couts=[]):
         self.nom = nom
         self.voisins = voisins
         self.couts = couts
         self.marque = False
+    
     def afficheNoeud(self):
         print(self.nom)
         
     def marqueNoeud(self):
         self.marque = True
         
-    def rech_glout(self, arr, estimations):
+    def a_eto(self, arr, estimations):
         noeud = self
+      
+        print("->", noeud.nom)
         parcours = [self.nom]
+        dist_cumul = 0
         while noeud != arr:
-            mini_noeud = noeud.voisins[0]
-            mini_estimation = estimations[noeud.voisins[0].nom]
+            noeud_mini = noeud.voisins[0]
+            fn = dist_cumul + estimations[noeud.voisins[0].nom]
+            dist_actuelle = noeud.couts[0]
+            for i in range(len(noeud.voisins)):
+                if (fn > dist_cumul + estimations[noeud.voisins[i].nom]) and (noeud.voisins[i].nom not in parcours):
+                    noeud_mini = noeud.voisins[i]
+                    fn = dist_cumul + estimations[noeud.voisins[i].nom]
+                    dist_actuelle = noeud.couts[i]
+                if (i==len(noeud.voisins)-1):
+                    dist_cumul = dist_cumul + dist_actuelle
+                    noeud = noeud_mini
+                    parcours.append(noeud.nom)
+                    
+                
             
-            # Comparer les estimations des autres voisins
-            for i in range(1, len(noeud.voisins)):
-                if estimations[noeud.voisins[i].nom] < mini_estimation:
-                    mini_estimation = estimations[noeud.voisins[i].nom]
-                    mini_noeud = noeud.voisins[i]
-            noeud = mini_noeud
-            parcours.append(noeud.nom)
         return parcours
-        
-
 
 arad = Noeud("Arad")
 craiova = Noeud("Craiova")
@@ -126,27 +135,7 @@ h = { "Arad": 366, "Bucharest": 0, "Craiova": 160, "Dobreta": 242, "Ephorie": 16
     "Sibiu": 253, "Timisoara": 329, "Urziceni": 80, "Vaslui": 199, "Zerind": 374}
 
 
-parcou = lugoj.rech_glout(bucharest,h)
+parcou = lugoj.a_eto(bucharest,h)
 
 print(parcou)
 
-
-a = Noeud("A")
-b = Noeud("B")
-c = Noeud("C")
-d = Noeud("D")
-e = Noeud("E")
-f = Noeud("F")
-g = Noeud("G")
-h = Noeud("H")
-i = Noeud("I")
-
-a = Noeud("A", [c, d], [5, 5])
-c = Noeud("C", [d, f, b, h], [6, 2, 3, 3])
-d = Noeud("D", [e], [2])
-e = Noeud("E", [b], [5])
-b = Noeud("B", [g], [4])
-g = Noeud("G", [i], [3])
-f = Noeud("F", [b], [3])
-h = Noeud("H", [i], [4])
-i = Noeud("I")   
