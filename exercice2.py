@@ -112,18 +112,21 @@ h3 = {
     "F": 6, "G": 3, "H": 4, "I": 0  
 }
 
-question2 = a.rech_glout(i, h3 )
+
+question1 = a.rech_glout(i, h) 
+
 question3 = a.a_eto(i, h1)
+question2 = a.rech_glout(i, h3 )
 question4 = a.a_eto(i, h2)
 question5 = a.a_eto(i, h3)
 
+print("Question 2: ")
+print(question2)
 
+print("Question 3: ")
+print(question3)
 
-
-
-
-
-
+print("Question 4")
 
 
 
